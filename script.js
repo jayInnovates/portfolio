@@ -471,13 +471,31 @@ document.addEventListener('DOMContentLoaded', function() {
             this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
             this.style.pointerEvents = 'none';
             
-            // Create a direct download link for the local PDF
-            const link = document.createElement('a');
-            link.href = './myResume.pdf';
-            link.download = 'Jay_Vishwakarma_Resume.pdf';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Force direct download without opening preview
+            fetch('./myResume.pdf')
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'Jay_Vishwakarma_Resume.pdf';
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Download failed:', error);
+                    // Fallback to simple download
+                    const link = document.createElement('a');
+                    link.href = './myResume.pdf';
+                    link.download = 'Jay_Vishwakarma_Resume.pdf';
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
             
             // Reset button after a short delay
             setTimeout(() => {
