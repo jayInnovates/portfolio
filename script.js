@@ -471,13 +471,9 @@ document.addEventListener('DOMContentLoaded', function() {
             this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
             this.style.pointerEvents = 'none';
             
-            // Create a direct PDF download link
-            const resumeUrl = 'https://www.overleaf.com/read/gmbndqnqwczt#b8f94a';
-            
-            // Create a temporary link element for download
+            // Create a direct download link for the local PDF
             const link = document.createElement('a');
-            link.href = resumeUrl;
-            link.target = '_blank';
+            link.href = './myResume.pdf';
             link.download = 'Jay_Vishwakarma_Resume.pdf';
             document.body.appendChild(link);
             link.click();
