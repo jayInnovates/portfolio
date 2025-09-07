@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="50" cy="50" r="48"/>
+    </clipPath>
+  </defs>
+  
+  <!-- White circular background -->
+  <circle cx="50" cy="50" r="48" fill="white"/>
+  
+  <!-- Orange curved section (left side) -->
+  <path d="M2 50 C2 30, 20 15, 40 20 C45 25, 50 35, 50 50 C50 65, 45 75, 40 80 C20 85, 2 70, 2 50 Z" fill="#FFA500"/>
+  
+  <!-- Cyan curved section (right side) -->  
+  <path d="M50 50 C50 35, 55 25, 60 20 C80 15, 98 30, 98 50 C98 70, 80 85, 60 80 C55 75, 50 65, 50 50 Z" fill="#20B2AA"/>
+  
+  <!-- White cross/plus symbol -->
+  <rect x="47" y="30" width="6" height="40" fill="white" rx="3"/>
+  <rect x="30" y="47" width="40" height="6" fill="white" rx="3"/>
+  
+  <!-- Bottom text -->
+  <text x="50" y="90" text-anchor="middle" fill="#20B2AA" font-family="Arial, sans-serif" font-size="8" font-weight="bold">NCIL</text>
+  
+  <!-- Decorative line above text -->
+  <line x1="25" y1="85" x2="75" y2="85" stroke="#FFA500" stroke-width="1"/>
+  
+  <!-- Apply circular clipping -->
+  <g clip-path="url(#circleClip)">
+    <!-- All content is already within the circle -->
+  </g>
+</svg>

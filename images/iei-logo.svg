@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="50" cy="50" r="48"/>
+    </clipPath>
+  </defs>
+  
+  <!-- Outer red decorative border -->
+  <circle cx="50" cy="50" r="48" fill="none" stroke="#DC143C" stroke-width="3"/>
+  <circle cx="50" cy="50" r="45" fill="none" stroke="#8B0000" stroke-width="1"/>
+  
+  <!-- Main background -->
+  <circle cx="50" cy="50" r="42" fill="#E6E6FA"/>
+  
+  <!-- Inner decorative border -->
+  <circle cx="50" cy="50" r="40" fill="none" stroke="#8B0000" stroke-width="1"/>
+  <circle cx="50" cy="50" r="38" fill="none" stroke="#8B0000" stroke-width="0.5"/>
+  
+  <!-- Central figure - classical figure with scales and tools -->
+  <g transform="translate(50,35)">
+    <!-- Figure body -->
+    <ellipse cx="0" cy="5" rx="8" ry="12" fill="#D2691E" opacity="0.8"/>
+    <!-- Head -->
+    <circle cx="0" cy="-5" r="3" fill="#D2691E"/>
+    <!-- Arms -->
+    <line x1="-6" y1="2" x2="-10" y2="8" stroke="#8B4513" stroke-width="1"/>
+    <line x1="6" y1="2" x2="10" y2="8" stroke="#8B4513" stroke-width="1"/>
+    <!-- Scale on left -->
+    <circle cx="-10" cy="8" r="2" fill="none" stroke="#8B4513" stroke-width="0.5"/>
+    <!-- Tools on right -->
+    <rect x="8" y="6" width="4" height="4" fill="#8B4513"/>
+  </g>
+  
+  <!-- Top text -->
+  <text x="50" y="15" text-anchor="middle" fill="#8B0000" font-family="serif" font-size="3.5" font-weight="bold">THE INSTITUTION OF ENGINEERS</text>
+  <text x="50" y="20" text-anchor="middle" fill="#8B0000" font-family="serif" font-size="4" font-weight="bold">(INDIA)</text>
+  
+  <!-- Bottom text -->
+  <text x="50" y="75" text-anchor="middle" fill="#8B0000" font-family="serif" font-size="3">INCORPORATED BY ROYAL CHARTER</text>
+  <text x="50" y="82" text-anchor="middle" fill="#8B0000" font-family="serif" font-size="3">ESTD 1920</text>
+  
+  <!-- Decorative stars -->
+  <polygon points="15,25 16,28 19,28 17,30 18,33 15,31 12,33 13,30 11,28 14,28" fill="#8B0000"/>
+  <polygon points="85,25 86,28 89,28 87,30 88,33 85,31 82,33 83,30 81,28 84,28" fill="#8B0000"/>
+  
+  <!-- Apply circular clipping -->
+  <g clip-path="url(#circleClip)">
+    <!-- All content is already within the circle -->
+  </g>
+</svg>

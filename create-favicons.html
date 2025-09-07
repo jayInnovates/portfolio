@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favicon Generator</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #0a0a0f; color: #00d4ff; }
+        canvas { border: 1px solid #00d4ff; margin: 10px; }
+        .download-link { display: block; margin: 5px 0; color: #00d4ff; }
+    </style>
+</head>
+<body>
+    <h2>Jay Vishwakarma - Favicon Generator</h2>
+    <div id="canvases"></div>
+    <div id="downloads"></div>
+
+    <script>
+        const sizes = [16, 32, 180, 192, 512];
+        const canvasContainer = document.getElementById('canvases');
+        const downloadContainer = document.getElementById('downloads');
+
+        sizes.forEach(size => {
+            // Create canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            canvas.style.width = '64px';
+            canvas.style.height = '64px';
+            canvasContainer.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            ctx.fillStyle = '#0a0a0f';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Border radius effect
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.15);
+            ctx.fillStyle = '#0a0a0f';
+            ctx.fill();
+            ctx.strokeStyle = '#00d4ff';
+            ctx.lineWidth = size * 0.05;
+            ctx.stroke();
+            
+            // Circuit pattern
+            ctx.strokeStyle = '#00d4ff';
+            ctx.lineWidth = size * 0.03;
+            ctx.beginPath();
+            ctx.moveTo(size * 0.2, size * 0.2);
+            ctx.lineTo(size * 0.8, size * 0.2);
+            ctx.lineTo(size * 0.8, size * 0.5);
+            ctx.lineTo(size * 0.5, size * 0.5);
+            ctx.lineTo(size * 0.5, size * 0.8);
+            ctx.lineTo(size * 0.2, size * 0.8);
+            ctx.stroke();
+            
+            // Center circle
+            ctx.beginPath();
+            ctx.arc(size * 0.5, size * 0.5, size * 0.15, 0, 2 * Math.PI);
+            ctx.fillStyle = '#00d4ff';
+            ctx.fill();
+            
+            // JV text (for larger sizes)
+            if (size >= 32) {
+                ctx.fillStyle = '#0a0a0f';
+                ctx.font = `bold ${size * 0.2}px monospace`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('JV', size * 0.5, size * 0.5);
+            }
+
+            // Create download link
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `favicon-${size}x${size}.png`;
+                link.textContent = `Download ${size}x${size} favicon`;
+                link.className = 'download-link';
+                downloadContainer.appendChild(link);
+            });
+        });
+
+        // Auto-download after 2 seconds
+        setTimeout(() => {
+            document.querySelectorAll('.download-link').forEach(link => {
+                link.click();
+            });
+        }, 2000);
+    </script>
+</body>
+</html>
