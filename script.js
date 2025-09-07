@@ -219,14 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
         typeWriter(heroSubtitle, originalText, 80);
     }, 1000);
 
-    // Initialize EmailJS (moved to after DOM is fully loaded)
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init("nXisQFEN8kg5eqtMC");
-    } else {
-        console.error('EmailJS library not loaded');
-    }
-    
-    // Contact form handling
+    // Contact form handling with Formspree
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -256,29 +249,31 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             submitBtn.disabled = true;
             
-            // Send email using EmailJS
-            const templateParams = {
-                from_name: name,
-                from_email: email,
-                subject: subject,
-                message: message
-            };
-            
-            emailjs.send('service_pc7fkb', 'template_85du88r', templateParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
+            // Send email using Formspree
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
                     showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
                     contactForm.reset();
-                }, function(error) {
-                    console.log('FAILED...', error);
-                    console.log('Error details:', JSON.stringify(error));
-                    showNotification('Failed to send message. Please try again or contact me directly.', 'error');
-                })
-                .finally(function() {
-                    // Reset button
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                });
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .catch(error => {
+                console.log('Error:', error);
+                showNotification('Failed to send message. Please try again or contact me directly.', 'error');
+            })
+            .finally(() => {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
         });
     }
 

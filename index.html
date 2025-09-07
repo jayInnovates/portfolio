@@ -679,7 +679,7 @@
                     </div>
                 </div>
                 <div class="contact-form-new">
-                    <form id="contactForm">
+                    <form id="contactForm" action="https://formspree.io/f/xgveqpko" method="POST">
                         <div class="form-group-new">
                             <input type="text" id="name" name="name" placeholder="Your Name" required>
                         </div>
@@ -692,6 +692,8 @@
                         <div class="form-group-new">
                             <textarea id="message" name="message" placeholder="Your Message" rows="6" required></textarea>
                         </div>
+                        <input type="hidden" name="_replyto" value="jeeaspirant39@gmail.com">
+                        <input type="hidden" name="_subject" value="New Contact Form Message">
                         <button type="submit" class="btn btn-primary">Send Message</button>
                     </form>
                 </div>
