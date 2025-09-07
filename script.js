@@ -250,24 +250,61 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = true;
             
             // Send email using Formspree
-            fetch(this.action, {
+            fetch('https://formspree.io/f/mrbgkpvw', {
                 method: 'POST',
                 body: formData,
                 headers: {
                     'Accept': 'application/json'
                 }
             })
-            .then(response => {
-                if (response.ok) {
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
                     showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
                     contactForm.reset();
                 } else {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Form submission failed');
                 }
             })
             .catch(error => {
                 console.log('Error:', error);
-                showNotification('Failed to send message. Please try again or contact me directly.', 'error');
+                // Try alternative method - direct form submission
+                const tempForm = document.createElement('form');
+                tempForm.action = 'https://formspree.io/f/mrbgkpvw';
+                tempForm.method = 'POST';
+                tempForm.target = '_blank';
+                
+                // Add form data
+                const nameInput = document.createElement('input');
+                nameInput.type = 'hidden';
+                nameInput.name = 'name';
+                nameInput.value = name;
+                tempForm.appendChild(nameInput);
+                
+                const emailInput = document.createElement('input');
+                emailInput.type = 'hidden';
+                emailInput.name = 'email';
+                emailInput.value = email;
+                tempForm.appendChild(emailInput);
+                
+                const subjectInput = document.createElement('input');
+                subjectInput.type = 'hidden';
+                subjectInput.name = 'subject';
+                subjectInput.value = subject;
+                tempForm.appendChild(subjectInput);
+                
+                const messageInput = document.createElement('input');
+                messageInput.type = 'hidden';
+                messageInput.name = 'message';
+                messageInput.value = message;
+                tempForm.appendChild(messageInput);
+                
+                document.body.appendChild(tempForm);
+                tempForm.submit();
+                document.body.removeChild(tempForm);
+                
+                showNotification('Message sent! Check the new tab for confirmation.', 'success');
+                contactForm.reset();
             })
             .finally(() => {
                 // Reset button
