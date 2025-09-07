@@ -219,8 +219,12 @@ document.addEventListener('DOMContentLoaded', function() {
         typeWriter(heroSubtitle, originalText, 80);
     }, 1000);
 
-    // Initialize EmailJS
-    emailjs.init("nXisQFEN8kg5eqtMC");
+    // Initialize EmailJS (moved to after DOM is fully loaded)
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init("nXisQFEN8kg5eqtMC");
+    } else {
+        console.error('EmailJS library not loaded');
+    }
     
     // Contact form handling
     const contactForm = document.getElementById('contactForm');
@@ -257,8 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 from_name: name,
                 from_email: email,
                 subject: subject,
-                message: message,
-                to_email: 'jeeaspirant39@gmail.com'
+                message: message
             };
             
             emailjs.send('service_pc7fkb', 'template_85du88r', templateParams)
@@ -268,6 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     contactForm.reset();
                 }, function(error) {
                     console.log('FAILED...', error);
+                    console.log('Error details:', JSON.stringify(error));
                     showNotification('Failed to send message. Please try again or contact me directly.', 'error');
                 })
                 .finally(function() {
