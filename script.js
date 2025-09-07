@@ -458,3 +458,28 @@ const mobileMenuCSS = `
 const style = document.createElement('style');
 style.textContent = mobileMenuCSS;
 document.head.appendChild(style);
+
+// Resume download functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const downloadResumeBtn = document.getElementById('download-resume');
+    if (downloadResumeBtn) {
+        downloadResumeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
+            this.style.pointerEvents = 'none';
+            
+            // Open the resume in a new tab for download
+            const resumeUrl = 'https://www.overleaf.com/5684278656yswxqsnvgzzw#771259';
+            window.open(resumeUrl, '_blank');
+            
+            // Reset button after a short delay
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.style.pointerEvents = 'auto';
+            }, 2000);
+        });
+    }
+});
