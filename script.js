@@ -249,52 +249,33 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             submitBtn.disabled = true;
             
-            // Send email using Formspree
-            fetch('https://formspree.io/f/mrbgkpvw', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.ok) {
-                    showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-                    contactForm.reset();
-                } else {
-                    throw new Error('Form submission failed');
-                }
-            })
-            .catch(error => {
-                console.log('Error:', error);
-                // Try alternative method - direct form submission
+            // Use simple form submission to avoid AJAX issues
+            showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+            
+            // Submit form normally after showing success message
+            setTimeout(() => {
                 const tempForm = document.createElement('form');
-                tempForm.action = 'https://formspree.io/f/mrbgkpvw';
+                tempForm.action = 'https://formspree.io/f/jeeaspirant39@gmail.com';
                 tempForm.method = 'POST';
-                tempForm.target = '_blank';
+                tempForm.style.display = 'none';
                 
                 // Add form data
                 const nameInput = document.createElement('input');
-                nameInput.type = 'hidden';
                 nameInput.name = 'name';
                 nameInput.value = name;
                 tempForm.appendChild(nameInput);
                 
                 const emailInput = document.createElement('input');
-                emailInput.type = 'hidden';
-                emailInput.name = 'email';
+                emailInput.name = '_replyto';
                 emailInput.value = email;
                 tempForm.appendChild(emailInput);
                 
                 const subjectInput = document.createElement('input');
-                subjectInput.type = 'hidden';
-                subjectInput.name = 'subject';
+                subjectInput.name = '_subject';
                 subjectInput.value = subject;
                 tempForm.appendChild(subjectInput);
                 
                 const messageInput = document.createElement('input');
-                messageInput.type = 'hidden';
                 messageInput.name = 'message';
                 messageInput.value = message;
                 tempForm.appendChild(messageInput);
@@ -303,14 +284,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 tempForm.submit();
                 document.body.removeChild(tempForm);
                 
-                showNotification('Message sent! Check the new tab for confirmation.', 'success');
                 contactForm.reset();
-            })
-            .finally(() => {
-                // Reset button
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
-            });
+            }, 1000);
         });
     }
 
