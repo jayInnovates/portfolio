@@ -225,6 +225,10 @@ class ProjectModals {
         const projectCards = document.querySelectorAll('.project-card');
         projectCards.forEach((card, index) => {
             card.addEventListener('click', (e) => {
+                // Don't prevent default if clicking on project links
+                if (e.target.closest('.project-link')) {
+                    return; // Allow the link to work normally
+                }
                 e.preventDefault();
                 this.openModal(this.projectData[index]);
             });

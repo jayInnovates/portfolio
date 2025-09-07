@@ -471,9 +471,17 @@ document.addEventListener('DOMContentLoaded', function() {
             this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
             this.style.pointerEvents = 'none';
             
-            // Open the resume in a new tab for download
-            const resumeUrl = 'https://www.overleaf.com/5684278656yswxqsnvgzzw#771259';
-            window.open(resumeUrl, '_blank');
+            // Create a direct PDF download link
+            const resumeUrl = 'https://www.overleaf.com/read/gmbndqnqwczt#b8f94a';
+            
+            // Create a temporary link element for download
+            const link = document.createElement('a');
+            link.href = resumeUrl;
+            link.target = '_blank';
+            link.download = 'Jay_Vishwakarma_Resume.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
             
             // Reset button after a short delay
             setTimeout(() => {
