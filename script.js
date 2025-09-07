@@ -219,7 +219,10 @@ document.addEventListener('DOMContentLoaded', function() {
         typeWriter(heroSubtitle, originalText, 80);
     }, 1000);
 
-    // Contact form handling with Formspree
+    // Initialize EmailJS
+    emailjs.init("nXisQFEN8kg5eqtMC");
+
+    // Contact form handling with EmailJS
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -248,45 +251,29 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             submitBtn.disabled = true;
             
-            // Use simple form submission to avoid AJAX issues
-            showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+            // Prepare template parameters
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                subject: subject,
+                message: message,
+                to_email: 'jeeaspirant39@gmail.com'
+            };
             
-            // Submit form normally after showing success message
-            setTimeout(() => {
-                const tempForm = document.createElement('form');
-                tempForm.action = 'https://formspree.io/f/jeeaspirant39@gmail.com';
-                tempForm.method = 'POST';
-                tempForm.style.display = 'none';
-                
-                // Add form data
-                const nameInput = document.createElement('input');
-                nameInput.name = 'name';
-                nameInput.value = name;
-                tempForm.appendChild(nameInput);
-                
-                const emailInput = document.createElement('input');
-                emailInput.name = '_replyto';
-                emailInput.value = email;
-                tempForm.appendChild(emailInput);
-                
-                const subjectInput = document.createElement('input');
-                subjectInput.name = '_subject';
-                subjectInput.value = subject;
-                tempForm.appendChild(subjectInput);
-                
-                const messageInput = document.createElement('input');
-                messageInput.name = 'message';
-                messageInput.value = message;
-                tempForm.appendChild(messageInput);
-                
-                document.body.appendChild(tempForm);
-                tempForm.submit();
-                document.body.removeChild(tempForm);
-                
-                contactForm.reset();
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }, 1000);
+            // Send email using EmailJS
+            emailjs.send('service_pc7fkb', 'template_85du88r', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+                    contactForm.reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    showNotification('Failed to send message. Please try again or contact me directly.', 'error');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
         });
     }
 
