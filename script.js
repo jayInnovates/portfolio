@@ -263,21 +263,16 @@ document.addEventListener('DOMContentLoaded', function() {
             // Send email using EmailJS
             emailjs.send('service_pc7fkb', 'template_85du88r', templateParams)
                 .then(function(response) {
-                    console.log('EmailJS SUCCESS!', response);
-                    // Check if response indicates success
-                    if (response && (response.status === 200 || response.text === 'OK')) {
-                        showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-                        contactForm.reset();
-                    } else {
-                        console.log('Unexpected response:', response);
-                        showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-                        contactForm.reset();
-                    }
+                    console.log('EmailJS Response:', response);
+                    // Always show success if we reach this point
+                    showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+                    contactForm.reset();
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
                 })
                 .catch(function(error) {
-                    console.error('EmailJS ERROR:', error);
+                    console.error('EmailJS Error:', error);
+                    // Only show error if there's actually an error
                     showNotification('Failed to send message. Please try again or contact me directly.', 'error');
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
