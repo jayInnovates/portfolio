@@ -219,66 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
         typeWriter(heroSubtitle, originalText, 80);
     }, 1000);
 
-    // Initialize EmailJS
-    emailjs.init("nXisQFEN8kg5eqtMC");
-
-    // Contact form handling with EmailJS
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data directly from form elements
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const subject = document.getElementById('subject').value.trim();
-            const message = document.getElementById('message').value.trim();
-            
-            // Simple validation
-            if (!name || !email || !subject || !message) {
-                showNotification('Please fill in all fields', 'error');
-                return;
-            }
-            
-            if (!isValidEmail(email)) {
-                showNotification('Please enter a valid email address', 'error');
-                return;
-            }
-            
-            // Show sending state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            submitBtn.disabled = true;
-            
-            // Prepare template parameters
-            const templateParams = {
-                from_name: name,
-                from_email: email,
-                subject: subject,
-                message: message,
-                to_email: 'jeeaspirant39@gmail.com'
-            };
-            
-            // Send email using EmailJS
-            emailjs.send('service_pc7fkb', 'template_85du88r', templateParams)
-                .then(function(response) {
-                    console.log('EmailJS Response:', response);
-                    // Always show success if we reach this point
-                    showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-                    contactForm.reset();
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                })
-                .catch(function(error) {
-                    console.error('EmailJS Error:', error);
-                    // Only show error if there's actually an error
-                    showNotification('Failed to send message. Please try again or contact me directly.', 'error');
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                });
-        });
-    }
 
     // Email validation
     function isValidEmail(email) {
